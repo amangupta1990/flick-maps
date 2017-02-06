@@ -17,7 +17,7 @@ export class MapComponentPage {
 @Output() searching: EventEmitter<any> = new EventEmitter<any>();
   private mapObj;
   private markerObj;
-  private mapCenter:any;
+  private mapCenter:any = { lat: 28.635308, lng: 77.22496 };
   private prevMarker: any = null;
   private mapMode:string = 'drag';
   private mapDragging:boolean = false;
@@ -32,11 +32,11 @@ export class MapComponentPage {
     let ctx = this; // incase this gets lost
     // set initial location and center
     this.mapObj = new google.maps.Map(this.ele.nativeElement.querySelector('#map'), {
-      center: { lat: 28.635308, lng: 77.22496 },
-      zoom: 15,
+      center: this.mapCenter,
+      zoom: 12,
       draggable:true
     });
-
+    
    //  ctx.markerObj.setMap(ctx.mapObj);
     // get the user's current location and set it 
    // this.getGeoLocation();
@@ -77,7 +77,7 @@ export class MapComponentPage {
    ctx.placeMarker(event.latLng);
 });
 
-
+this.emitLocation();
 
   }
 
@@ -127,7 +127,7 @@ placeMarker(location) {
       lng: pos.coords.longitude
     }
     this.mapObj.setCenter(cords);
-    this.mapObj.setZoom(15);
+    this.mapObj.setZoom(12);
     this.mapCenter = cords;
 
     if(this.mapMode=='tap')
