@@ -18,7 +18,8 @@ self.toolbox.precache(
     './build/main.css',
     './build/polyfills.js',
     'index.html',
-    'manifest.json'
+    'manifest.json',
+    'http://www.ru-ve.hr/images/google_pin.png'
   ]
 );
 
