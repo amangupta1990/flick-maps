@@ -62,6 +62,12 @@ export class MapComponent {
    
     });
 
+    //make sure the image fetch does not fire while dragging!
+      google.maps.event.addListener(ctx.mapObj,'dragend', () => {
+        if(this.emitterTimeout)
+         window.clearTimeout(this.emitterTimeout);
+      })
+
     // stop the animation once the drag ends
             google.maps.event.addListener(ctx.mapObj,'dragend', () => {
        this.mapDragging= false;
