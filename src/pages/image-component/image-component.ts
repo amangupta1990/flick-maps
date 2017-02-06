@@ -41,7 +41,7 @@ private scrollWidth = '0px';
 
     updateLocation(loc: any) {
    let url  = `https://api.flickr.com/services/rest/?
-   method=flickr.photos.search&api_key=369df62e04d65f5093cfadee5ad89b30&
+   method=flickr.photos.search&api_key=8f9a7fbeb0f9e5e1116cbafd4d8b20c4&
    has_geo=true&
    in_gallery=true&
    radius=${this.searchRadius}&
