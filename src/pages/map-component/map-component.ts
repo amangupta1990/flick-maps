@@ -12,7 +12,7 @@ declare var google: any;
   selector: 'page-map-component',
   templateUrl: 'map-component.html'
 })
-export class MapComponentPage {
+export class MapComponent {
  @Output() newLocation: EventEmitter<Object> = new EventEmitter<Object>();
 @Output() searching: EventEmitter<any> = new EventEmitter<any>();
   private mapObj;
@@ -21,6 +21,7 @@ export class MapComponentPage {
   private prevMarker: any = null;
   private mapMode:string = 'drag';
   private mapDragging:boolean = false;
+  private emitterTimeout:any;
   constructor(public navCtrl: NavController, public navParams: NavParams, private ele: ElementRef,public toastCtrl: ToastController,public alertController:AlertController) {
     window.initMap = this.initMap.bind(this);
 
@@ -65,7 +66,15 @@ export class MapComponentPage {
             google.maps.event.addListener(ctx.mapObj,'dragend', () => {
        this.mapDragging= false;
               if(ctx.mapMode=='drag')
-          ctx.emitLocation();
+              {
+                // for throttling while the user drags the map around
+                  if(this.emitterTimeout)
+                  window.clearTimeout(this.emitterTimeout);
+
+                 this.emitterTimeout =  window.setTimeout(()=>{this.emitLocation()},1200);
+               
+              
+              }
        
 
         });

@@ -19,7 +19,7 @@
 
   <page-map-component  #mapComponent (newLocation)="onNewLocation($event)" (searching)="onMapSearching()"></page-map-component>
 
-<ion-footer [@flyInBelow]="ImageViewerState">
+<ion-footer [@flyInBelow]="ImageViewerState" [style.height]="viewerHeight+'em'">
     <page-image-component #imageComponent (imagesLoaded)="onImagesLoaded($event)" ></page-image-component>
 </ion-footer>
 <!-- AIzaSyDylW6VFeFQtm48lPrYyxQCFRfDcr0vj2s -->

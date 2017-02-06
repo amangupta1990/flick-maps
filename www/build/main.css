@@ -3,7 +3,6 @@
 }
 
 ion-footer {
-  height: 20em;
   background: rgba(0, 0, 0, 0.9);
   color: white;
   overflow-x: scroll;
@@ -21334,6 +21333,10 @@ sub {
   }
 }
 
+.horizontal-scroll {
+  padding: 2em 0;
+}
+
 .image-placeholder {
   float: left;
   height: inherit;
@@ -21347,6 +21350,7 @@ sub {
   -webkit-justify-content: center;
   -ms-flex-pack: center;
   justify-content: center;
+  cursor: pointer;
 }
 
 .image-placeholder img {
@@ -21356,6 +21360,20 @@ sub {
 
 .image-placeholder p {
   font-size: 12px;
+}
+
+.backdrop {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  background: black;
+  height: inherit;
 }
 
 ion-spinner {

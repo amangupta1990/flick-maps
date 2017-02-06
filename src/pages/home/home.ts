@@ -1,6 +1,6 @@
 import { Component, ViewChild,NgZone } from '@angular/core';
-import {ImageComponentPage} from '../image-component/image-component';
-import {MapComponentPage} from '../map-component/map-component';
+import {ImageComponent} from '../image-component/image-component';
+import {MapComponent} from '../map-component/map-component';
 import { PopoverController , ViewController , NavParams} from 'ionic-angular';
 import {Animations} from '../animations';
 
@@ -13,11 +13,20 @@ export class HomePage {
  private ImageViewerState ='inactive';
 private mapMode = 'drag';
 private searchRadius =2;
-    @ViewChild('imageComponent') imgComp:ImageComponentPage;
-     @ViewChild('mapComponent') mapComp:MapComponentPage;
+private viewerHeight:number;
+    @ViewChild('imageComponent') imgComp:ImageComponent;
+     @ViewChild('mapComponent') mapComp:MapComponent;
 
   constructor(public popOverCtrl:PopoverController,private _ngZone:NgZone) {
-  
+       // configure image container  widths by device height
+      let windowHeight = window.innerHeight;
+
+      if(windowHeight <=480 )
+      this.viewerHeight = 14; // em
+      else
+      this.viewerHeight = 20; //em
+
+     
   }
 
 

@@ -1,4 +1,8 @@
 
+.horizontal-scroll{
+    padding:2em 0;
+}
+
 
 
  .image-placeholder{
@@ -8,6 +12,7 @@ padding:1.2em 1em;
 display:flex;
 flex-direction:column;
 justify-content: center;
+cursor:pointer;
 }
 
 .image-placeholder img {
@@ -17,6 +22,15 @@ justify-content: center;
 }
 
 .image-placeholder p { font-size:12px;}
+
+.backdrop{
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background:black;
+    height:inherit;
+}
 
 ion-spinner {
  

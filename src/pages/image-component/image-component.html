@@ -9,11 +9,11 @@
 
    <div id="scrollContainer" class="horizontal-scroll" [style.width]="scrollWidth" *ngIf="images"  >
 
-   <div class="image-placeholder"[style.maxHeight]="containerWidth+'em'" [style.width]="containerWidth+'em'" *ngFor="let i of images"> <img  [src]="i.url"  />
-   <p>{{i.title}}</p>
+   <div class="image-placeholder"[style.maxHeight]="containerWidth+'em'" [style.width]="containerWidth+'em'" *ngFor="let i of images"> <img  [src]="i.thumbnail" (click)="openImage(i.url)"  />
+   <p>{{clipText(i.title)}}</p>
    </div>
    <div class="image-placeholder" [style.width]="containerWidth+'em'" [style.height]="containerWidth+'em'">
-   <ion-spinner style="stroke:white"></ion-spinner>
+   <ion-spinner style="stroke:white" *ngIf="loaderVisible"></ion-spinner>
    </div>
      </div>
 

@@ -1,6 +1,6 @@
 import { Component , Input,Output, EventEmitter, NgZone , ElementRef } from '@angular/core';
 import { Jsonp  } from '@angular/http';
-import { NavController, ToastController  } from 'ionic-angular';
+import { NavController, ToastController, ModalController, NavParams,ViewController } from 'ionic-angular';
 import {Observable}     from 'rxjs/Observable';
 
 import 'rxjs/Rx';
@@ -20,7 +20,7 @@ declare var window;
   selector: 'page-image-component',
   templateUrl: 'image-component.html'
 })
-export class ImageComponentPage {
+export class ImageComponent {
   @Output() imagesLoaded: EventEmitter<any> = new EventEmitter();
 private state = 'inactive';
 private searchRadius = 2; 
@@ -36,9 +36,10 @@ private scrollWidth = '0px';
  private page: number = 1;
  private currentLocation:any;
  private requestActive:boolean = false;
-  constructor(private elementRef:ElementRef, public navCtrl: NavController, public toastCtrl: ToastController,private req:Jsonp,private _ngZone: NgZone) {
-
-          let windowHeight = window.innerHeight;
+ private loaderVisible:boolean = true;
+  constructor(private modalController:ModalController ,private elementRef:ElementRef, public navCtrl: NavController, public toastCtrl: ToastController,private req:Jsonp,private _ngZone: NgZone) {
+      // configure image container  widths by device height
+      let windowHeight = window.innerHeight;
 
       if(windowHeight <=480 )
       this.containerWidth = 8; // em
@@ -77,6 +78,7 @@ private scrollWidth = '0px';
     }
 
     getPictures(url){
+      this.loaderVisible = true;
       this.requestActive = true;
      this.toast = this.toastCtrl.create({
     message: this.page == 1? 'fetching images' : 'loading..',
@@ -123,10 +125,11 @@ jsonFlickrApi(rsp){
    this.toast.dismiss();
 
    this.toast  = this.toastCtrl.create({
-    message: 'Nothing to show here!',
+    message: this.page==1? 'Nothing to show here!': 'No more images to show here!',
     duration: 2000,
     position: 'bottom'
   });  
+  this.loaderVisible = false;
   this.toast.present();
   return;
      }              
@@ -134,7 +137,8 @@ jsonFlickrApi(rsp){
   let photos = rsp.photos.photo.map(photo=>{
 
   
-    let img  = {url: `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_m.jpg`,
+    let img  = {thumbnail: `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_m.jpg`,
+                url: `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_b.jpg`,
                 title: photo.title,
                 ready:false
     }
@@ -208,7 +212,40 @@ let scroller =  document.querySelector('ion-footer');
 
 }
 
+clipText(text:string){
+  return text.split('').slice(0,30).join('') +  (text.length > 30? '...':'');
+}
+
+openImage(src:string){
+     let imageModal = this.modalController.create(ImageViewer, { src: src });
+   imageModal.onDidDismiss(data => {
+    // nothing need to be done here.
+   });
+   imageModal.present();
+ }
+
+
+}
 
 
 
+
+@Component({
+  selector: 'image-viewer',
+  template: `<div class="backdrop"><img  [src]='src'/><div>
+  
+            <ion-fab  right top>
+            <button (click)="dismiss()" ion-fab mini ><ion-icon name="close"></ion-icon></button>
+            </ion-fab>`
+})
+export class ImageViewer {
+private src:string;
+ constructor(params: NavParams , private viewCtrl:ViewController) {
+   this.src = params.data.src;
+ }
+
+ dismiss() {
+
+   this.viewCtrl.dismiss();
+ }
 }
