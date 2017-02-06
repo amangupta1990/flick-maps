@@ -63,7 +63,7 @@ export class MapComponent {
     });
 
     //make sure the image fetch does not fire while dragging!
-      google.maps.event.addListener(ctx.mapObj,'dragend', () => {
+      google.maps.event.addListener(ctx.mapObj,'dragging', () => {
         if(this.emitterTimeout)
          window.clearTimeout(this.emitterTimeout);
       })
