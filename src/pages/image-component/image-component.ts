@@ -216,8 +216,8 @@ clipText(text:string){
   return text.split('').slice(0,30).join('') +  (text.length > 30? '...':'');
 }
 
-openImage(src:string){
-     let imageModal = this.modalController.create(ImageViewer, { src: src });
+openImage(src:string,title:string){
+     let imageModal = this.modalController.create(ImageViewer, { src: src, title:title });
    imageModal.onDidDismiss(data => {
     // nothing need to be done here.
    });
@@ -232,7 +232,8 @@ openImage(src:string){
 
 @Component({
   selector: 'image-viewer',
-  template: `<div class="backdrop"><img  [src]='src'/><div>
+  template: `<div class="backdrop"><img  [src]='src'/>
+              <p>{{title}}</p><div>
   
             <ion-fab  right top>
             <button (click)="dismiss()" ion-fab mini ><ion-icon name="close"></ion-icon></button>
@@ -240,8 +241,10 @@ openImage(src:string){
 })
 export class ImageViewer {
 private src:string;
+private title:string;
  constructor(params: NavParams , private viewCtrl:ViewController) {
    this.src = params.data.src;
+   this.title = params.data.title;
  }
 
  dismiss() {

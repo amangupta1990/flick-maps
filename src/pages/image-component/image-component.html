@@ -9,7 +9,7 @@
 
    <div id="scrollContainer" class="horizontal-scroll" [style.width]="scrollWidth" *ngIf="images"  >
 
-   <div class="image-placeholder"[style.maxHeight]="containerWidth+'em'" [style.width]="containerWidth+'em'" *ngFor="let i of images"> <img  [src]="i.thumbnail" (click)="openImage(i.url)"  />
+   <div class="image-placeholder"[style.maxHeight]="containerWidth+'em'" [style.width]="containerWidth+'em'" *ngFor="let i of images"> <img  [src]="i.thumbnail" (click)="openImage(i.url,i.title)"  />
    <p>{{clipText(i.title)}}</p>
    </div>
    <div class="image-placeholder" [style.width]="containerWidth+'em'" [style.height]="containerWidth+'em'">

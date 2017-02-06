@@ -21376,6 +21376,16 @@ sub {
   height: inherit;
 }
 
+.backdrop p {
+  color: white;
+  padding: 0.5em;
+  display: block;
+  z-index: 10;
+  position: absolute;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+
 ion-spinner {
   margin: auto;
 }
