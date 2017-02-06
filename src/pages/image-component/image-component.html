@@ -7,10 +7,14 @@
 
 
 
-   <div  class="horizontal-scroll" [style.width]="scrollWidth" *ngIf="images" >
+   <div id="scrollContainer" class="horizontal-scroll" [style.width]="scrollWidth" *ngIf="images"  >
 
-   <div class="image-placeholder" *ngFor="let i of images"> <img  [src]="i.url" /></div>
-  
+   <div class="image-placeholder"[style.maxHeight]="containerWidth+'em'" [style.width]="containerWidth+'em'" *ngFor="let i of images"> <img  [src]="i.url"  />
+   <p>{{i.title}}</p>
+   </div>
+   <div class="image-placeholder" [style.width]="containerWidth+'em'" [style.height]="containerWidth+'em'">
+   <ion-spinner style="stroke:white"></ion-spinner>
+   </div>
      </div>
 
 

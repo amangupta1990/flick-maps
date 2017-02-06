@@ -103,7 +103,7 @@ placeMarker(location) {
   }
 
   getGeoLocation() {
-
+    this.searching.emit()// odd , but just resuing it here .. hehe
    if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((location) => { 
         this.setMap(location) }, 

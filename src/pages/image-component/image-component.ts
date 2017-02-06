@@ -1,4 +1,4 @@
-import { Component , Input,Output, EventEmitter, NgZone } from '@angular/core';
+import { Component , Input,Output, EventEmitter, NgZone , ElementRef } from '@angular/core';
 import { Jsonp  } from '@angular/http';
 import { NavController, ToastController  } from 'ionic-angular';
 import {Observable}     from 'rxjs/Observable';
@@ -27,19 +27,38 @@ private searchRadius = 2;
 private scrollWidth = '0px';
  private images = [];
  private toast:any;
-  constructor(public navCtrl: NavController, public toastCtrl: ToastController,private req:Jsonp,private _ngZone: NgZone) {
+ private containerWidth: number; 
+ private imageMaxHeight: number;// to make sure the horizontal scroll is scaled enough 
+ private offsetXObservable:any;
+ private hScrollEle:any = null;
+ private scrollEndObservable: Observable<boolean>;
+ private scrollEndListner: any;
+ private page: number = 1;
+ private currentLocation:any;
+ private requestActive:boolean = false;
+  constructor(private elementRef:ElementRef, public navCtrl: NavController, public toastCtrl: ToastController,private req:Jsonp,private _ngZone: NgZone) {
 
+          let windowHeight = window.innerHeight;
+
+      if(windowHeight <=480 )
+      this.containerWidth = 8; // em
+      else
+      this.containerWidth = 15; //em
+
+      this.imageMaxHeight = this.containerWidth;
 
       window.jsonFlickrApi = this.jsonFlickrApi.bind(this);
-    
+
+     
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ImageComponentPage');
-  }
+ 
 
 
-    updateLocation(loc: any) {
+    loadPicturesFromLocation(loc: any) {
+   // if the location has changed , reset the page
+   this.page = loc == this.currentLocation? this.page: 1;
+   this.currentLocation = loc;   
    let url  = `https://api.flickr.com/services/rest/?
    method=flickr.photos.search&api_key=8f9a7fbeb0f9e5e1116cbafd4d8b20c4&
    has_geo=true&
@@ -48,18 +67,19 @@ private scrollWidth = '0px';
    accuracy=11&
    content_type=1&
    radius_units=km&
+   page=${this.page}&
    per_page=25&
-   lat=${loc.lat}&
-   lon=${loc.lng}&format=json&
+   lat=${this.currentLocation .lat}&
+   lon=${this.currentLocation .lng}&format=json&
    callback=JSONP_CALLBACK`;
    console.log(url);
    this.getPictures(url)
     }
 
     getPictures(url){
-
+      this.requestActive = true;
      this.toast = this.toastCtrl.create({
-    message: 'fetching images',
+    message: this.page == 1? 'fetching images' : 'loading..',
     duration: null,
     position: 'bottom'
   });  
@@ -115,20 +135,47 @@ jsonFlickrApi(rsp){
 
   
     let img  = {url: `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_m.jpg`,
-                title: photo.title
+                title: photo.title,
+                ready:false
     }
     return img;
   });
 
+    this.requestActive = false;
+
+  if(this.page == 1)
   this.loadImages(photos);
+  else this.pushImages(photos);
+  this.page+= 1;
   
 }
 
+pushImages(images){
+  this._ngZone.run(() => {
+// +1 for the loader at the end
+  let imgColl = [];
+  images.map(img=>{
+
+  this.images.push(img);
+
+  });
+
+
+  this.scrollWidth = (this.images.length+1)*this.containerWidth+'em'; 
+
+
+   });
+}
 
 loadImages(images){
   this._ngZone.run(() => {
-      this.scrollWidth = images.length*200+'px';
+  this.scrollWidth = (images.length+1)*this.containerWidth+'em'; // +1 for the loader at the end
   this.images= images;
+  if(!this.hScrollEle)
+  // cannot do the initialization in the constuctor because this gets called first :\
+  this.hScrollEle = this.initScroller();
+  let scrolled = this.hScrollEle.scrollLeft;
+  this.hScrollEle.scrollLeft=-1*scrolled;
   // just need to tell the home component to show the viewer;
   this.imagesLoaded.emit();
 
@@ -138,5 +185,30 @@ loadImages(images){
 setSearchRadius(searchRadius){
   this.searchRadius = searchRadius;
 }
+
+initScroller(){
+ 
+var ctx = this;
+let scroller =  document.querySelector('ion-footer');
+// setup the observable as well;
+
+   this.scrollEndObservable = Observable.fromEvent(scroller, 'scroll').map(() => {
+      // I don't actually care about the event, I just need to get the window offset (scroll position)
+      //keeping 10 as the base conversion between pixel to em
+      return (scroller.scrollWidth - scroller.scrollLeft - parseFloat(getComputedStyle(scroller.querySelector('.image-placeholder')).width) <= scroller.clientWidth);
+    });
+
+    this.scrollEndListner = this.scrollEndObservable.subscribe(endReached=>{
+       if(endReached && ! this.requestActive)
+       this.loadPicturesFromLocation(this.currentLocation);
+     
+    })
+
+    return scroller;
+
+}
+
+
+
 
 }

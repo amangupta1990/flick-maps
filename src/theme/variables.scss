@@ -9,11 +9,11 @@ $font-path: "../assets/fonts";
 
 ion-footer{
   height:20em;
-  background:black;
+  background:rgba(0,0,0,0.9);
   color:white;
   overflow-x:scroll;
   overflow-y:hidden;
-  margin-top:-20em;
+
 }
 
 .splash-container{

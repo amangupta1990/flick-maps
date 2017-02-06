@@ -23,7 +23,7 @@ private searchRadius =2;
 
  onNewLocation(loc){
   
-   this.imgComp.updateLocation(loc);
+   this.imgComp.loadPicturesFromLocation(loc);
 
  }
 

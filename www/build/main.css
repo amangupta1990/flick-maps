@@ -4,11 +4,10 @@
 
 ion-footer {
   height: 20em;
-  background: black;
+  background: rgba(0, 0, 0, 0.9);
   color: white;
   overflow-x: scroll;
   overflow-y: hidden;
-  margin-top: -20em;
 }
 
 .splash-container {
@@ -21335,19 +21334,36 @@ sub {
   }
 }
 
-.horiontal-scroll {
-  background: black;
-}
-
 .image-placeholder {
   float: left;
   height: inherit;
-  width: 25em;
+  padding: 1.2em 1em;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
 }
 
 .image-placeholder img {
   height: inherit;
   width: inherit;
+}
+
+.image-placeholder p {
+  font-size: 12px;
+}
+
+ion-spinner {
+  margin: auto;
+}
+
+ion-spinner svg circle {
+  stroke: white !important;
 }
 
 #map {

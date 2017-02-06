@@ -1,19 +1,28 @@
-page-image-component {
 
-}
 
-.horiontal-scroll{
-  
-    background:black;
-}
 
  .image-placeholder{
 float:left;
 height:inherit;
-width:25em;
+padding:1.2em 1em;
+display:flex;
+flex-direction:column;
+justify-content: center;
 }
 
 .image-placeholder img {
     height:inherit;
     width:inherit;
+ 
+}
+
+.image-placeholder p { font-size:12px;}
+
+ion-spinner {
+ 
+    margin:auto;
+}
+
+ion-spinner svg circle{
+stroke:white!important;
 }
