@@ -21340,7 +21340,7 @@ sub {
 .image-placeholder {
   float: left;
   height: inherit;
-  padding: 1.2em 1em;
+  margin: 0.5em;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;

@@ -11,7 +11,7 @@ import {Animations} from '../animations';
 })
 export class HomePage {
  private ImageViewerState ='inactive';
-private mapMode = 'drag';
+private mapMode = 'tap';
 private searchRadius =2;
 private viewerHeight:number;
     @ViewChild('imageComponent') imgComp:ImageComponent;
@@ -58,6 +58,7 @@ private viewerHeight:number;
     popover.onDidDismiss(newOptions=>{
       this.mapMode = newOptions.mapMode;
       // send the new options to the map
+      this.ImageViewerState = 'inactive';
       this.mapComp.setMapMode(this.mapMode);
 
       // update the radius parameter in the image componenet 

@@ -149,14 +149,15 @@ placeMarker(location) {
     this.mapMode = mode;
     let message = ''
     if(this.mapMode == 'tap'){
-      message = 'click on the map to place the marker';
-      this.placeMarker(this.mapObj.getCenter())
+      message = this.mapMode+' mode: click on the map to place the marker';
+      
     }
     else {
-      message = 'drag the map to positon the marker';
+      message =this.mapMode+ ' mode: drag the map to positon the marker';
       if(this.prevMarker){
       this.mapObj.setCenter(this.prevMarker.getPosition());
       this.prevMarker.setMap(null);
+      
       }
     }
 
@@ -167,6 +168,14 @@ placeMarker(location) {
   });  
 
   toast.present();
+ // start fetching images only after the message goes
+  toast.onDidDismiss(()=>{
+
+    if(this.mapMode == 'tap')
+    this.placeMarker(this.mapObj.getCenter());
+    else
+    this.emitLocation();
+  })
   
   }
 
