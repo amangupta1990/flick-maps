@@ -4,6 +4,9 @@ $font-path: "../assets/fonts";
 
 @import "ionic.globals";
 
+
+*{font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;}
+
 ion-footer{
   height:20em;
   background:black;
@@ -13,7 +16,33 @@ ion-footer{
   margin-top:-20em;
 }
 
+.splash-container{
+  width:inherit;
+  height:inherit;
+  position:absolute;
+  color:white;
+  background:#52c4c9;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  z-index:1;
+}
 
+.splash-center{
+  width:inherit;
+  height:inherit;
+  display:flex;
+  flex-direction:row;
+  justify-content: center;
+  background: inherit;
+  color:inherit;
+}
+
+.splash-center h1{
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+}
 
 // Shared Variables
 // --------------------------------------------------
@@ -34,7 +63,7 @@ ion-footer{
 // The "primary" color is the only required color in the map.
 
 $colors: (
-  primary:    #387ef5,
+  primary:    #52c4c9,
   secondary:  #32db64,
   danger:     #f53d3d,
   light:      #f4f4f4,

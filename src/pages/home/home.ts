@@ -59,6 +59,10 @@ private searchRadius =2;
 
   }
 
+  getUserLocation(){
+    this.mapComp.getGeoLocation();
+  }
+
 }
 
 
@@ -93,7 +97,7 @@ private searchRadius =2;
      search radius
   </ion-list-header>
     <ion-item>
-    <ion-range min="1" max="20" [(ngModel)]="radius" color="secondary" pin="true" >
+    <ion-range min="1" max="20" [(ngModel)]="radius" color="primary" pin="true" >
       <ion-label range-left>1</ion-label>
       <ion-label range-right>20</ion-label>
     </ion-range>
@@ -110,7 +114,7 @@ export class PopoverPage {
 
   }
   
-  onVi
+ 
 
   close() {
     this.viewCtrl.dismiss({mapMode:this.mapMode,radius:this.radius});

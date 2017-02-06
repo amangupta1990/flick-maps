@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef, EventEmitter, Output } from '@angular/core';
-import { NavController, NavParams ,ToastController} from 'ionic-angular';
+import { NavController, NavParams ,ToastController,AlertController} from 'ionic-angular';
 declare var window: any;
 declare var google: any;
 /*
@@ -21,7 +21,7 @@ export class MapComponentPage {
   private prevMarker: any = null;
   private mapMode:string = 'drag';
   private mapDragging:boolean = false;
-  constructor(public navCtrl: NavController, public navParams: NavParams, private ele: ElementRef,public toastCtrl: ToastController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private ele: ElementRef,public toastCtrl: ToastController,public alertController:AlertController) {
     window.initMap = this.initMap.bind(this);
 
   }
@@ -32,14 +32,14 @@ export class MapComponentPage {
     let ctx = this; // incase this gets lost
     // set initial location and center
     this.mapObj = new google.maps.Map(this.ele.nativeElement.querySelector('#map'), {
-      center: { lat: -34.397, lng: 150.644 },
-      zoom: 18,
+      center: { lat: 28.635308, lng: 77.22496 },
+      zoom: 15,
       draggable:true
     });
 
    //  ctx.markerObj.setMap(ctx.mapObj);
     // get the user's current location and set it 
-    this.getGeoLocation();
+   // this.getGeoLocation();
 
     // when map drag starts , singnal for the image viewer to slide away
 
@@ -103,8 +103,21 @@ placeMarker(location) {
   }
 
   getGeoLocation() {
+
    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((location) => { this.setMap(location) }, null, { enableHighAccuracy: true });
+      navigator.geolocation.getCurrentPosition((location) => { 
+        this.setMap(location) }, 
+        error =>{  
+
+          let alert = this.alertController.create({
+          title: 'Location unavailable',
+          subTitle: 'Either you need to turn on your device location , or check whther it has been blocked for this site.',
+          buttons: ['Dismiss']
+           });
+  alert.present();
+          console.log(error);
+        }
+        , { enableHighAccuracy: true });
     }
   }
 
@@ -114,12 +127,16 @@ placeMarker(location) {
       lng: pos.coords.longitude
     }
     this.mapObj.setCenter(cords);
-    this.mapObj.setZoom(18);
+    this.mapObj.setZoom(15);
     this.mapCenter = cords;
+
+    if(this.mapMode=='tap')
+    this.placeMarker(new google.maps.LatLng(cords.lat, cords.lng));
     this.emitLocation();
   }
 
   setMapMode(mode){
+    if(mode == this.mapMode) return;
     this.mapMode = mode;
     let message = ''
     if(this.mapMode == 'tap'){

@@ -81,7 +81,7 @@ private scrollWidth = '0px';
 jsonFlickrApi(rsp){
 
 	if (rsp.stat != "ok"){
-
+       this.toast.dismiss();
        this.toast  = this.toastCtrl.create({
     message: 'Error occured, try again later',
     duration: 2000,
