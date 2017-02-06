@@ -1,0 +1,18 @@
+page-map-component {
+
+}
+
+#map{height:100%}
+
+.centerMarker{
+    position: absolute;
+    background: url(http://www.ru-ve.hr/images/google_pin.png) no-repeat;
+    top: 50%;
+    left: 50%;
+    z-index: 1;
+    margin-left: -14px;
+    margin-top: -47px;
+    height: 45px;
+    width: 29px;
+    cursor: pointer;
+}

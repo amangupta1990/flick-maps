@@ -1,0 +1,16 @@
+<!--
+  Generated template for the ImageComponent page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+
+
+
+   <div  class="horizontal-scroll" [style.width]="scrollWidth" *ngIf="images" >
+
+   <div class="image-placeholder" *ngFor="let i of images"> <img  [src]="i.url" /></div>
+  
+     </div>
+
+

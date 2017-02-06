@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Ionic Blank
+    </ion-title>
+
+
+   <ion-buttons end>
+      <button ion-button icon-only (click)="presentPopover($event)">
+  <ion-icon name="more"></ion-icon>
+</button>
+    </ion-buttons>
+
+  </ion-navbar>
+</ion-header>
+
+  <page-map-component  #mapComponent (newLocation)="onNewLocation($event)" (searching)="onMapSearching()"></page-map-component>
+
+<ion-footer [@flyInBelow]="ImageViewerState">
+    <page-image-component #imageComponent (imagesLoaded)="onImagesLoaded($event)" ></page-image-component>
+</ion-footer>
+<!-- AIzaSyDylW6VFeFQtm48lPrYyxQCFRfDcr0vj2s -->
