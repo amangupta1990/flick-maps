@@ -165,7 +165,7 @@ pushImages(images){
   });
 
 
-  this.scrollWidth = (this.images.length+1)*this.containerWidth+'em'; 
+  this.scrollWidth = (this.images.length+1)*(this.containerWidth+1)+'em'; 
 
 
    });
@@ -173,7 +173,7 @@ pushImages(images){
 
 loadImages(images){
   this._ngZone.run(() => {
-  this.scrollWidth = (images.length+1)*this.containerWidth+'em'; // +1 for the loader at the end
+  this.scrollWidth = (images.length+1)*(this.containerWidth+1)+'em'; // +1 for the loader at the end
   this.images= images;
   if(!this.hScrollEle)
   // cannot do the initialization in the constuctor because this gets called first :\
