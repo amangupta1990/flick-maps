@@ -3,7 +3,9 @@ Flick-Maps
 
 This is a demo of google maps and flicker image search integration in a progressive web app built with angular 2 .
 
-The project uses the Ionic 2 framework with pwa support
+The project uses the Ionic 2 framework with pwa support.
+
+[DEMO](https://amangupta1990.github.io/flick-maps/www/)
 
 ## Features
 
@@ -27,6 +29,16 @@ The project uses the Ionic 2 framework with pwa support
 2. improve zoom - radius calculation 
 
 
+## tested with 
+
+1. Google chrome - browser and android
+2. microsoft Edge - windows 10 desktop and phone
+3. Safari - Ios 9 and Safari on osx 10.11
+
+## runnig the project:
+
+
+
 ```bash
 $ npm install -g ionic
 ```
@@ -34,7 +46,12 @@ $ npm install -g ionic
 Then cd into project and run :
 
 ```bash
-$ ionic serve 
+$ npm install
+```
+and then finally
+
+```bash
+$ ionic serve ( optional --lab mode  )
 ```
 
 More info on this can be found on the Ionic [Getting Started](http://ionicframework.com/docs/v2/getting-started/) page.
