@@ -79,7 +79,7 @@ private scrollWidth = '0px';
    method=flickr.photos.search&api_key=8f9a7fbeb0f9e5e1116cbafd4d8b20c4&
    has_geo=true&
    in_gallery=true&
-   tags=food,restraunt,hotel,cafe,market,fastfood,streetfood,heritage,monument,clubs,club,art,music,craft,handtcraft,plays,pub,pubs&
+   tags=food,restraunt,hotel,cafe,fastfood,streetfood,heritage,monument,clubs,club,art,music,craft,handtcraft,plays,pub,pubs&
    radius=${this.searchRadius}&
    accuracy=${this.accuracy}&
    content_type=1&
