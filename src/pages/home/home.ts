@@ -29,8 +29,13 @@ private viewerHeight:number;
      
   }
 
+onZoom(zoomLevel:string){
+console.log(zoomLevel);
+// tell the image component to adjust it's accuracy
+this.imgComp.setAccuracy(zoomLevel);
+}
 
- onNewLocation(loc){
+ onNewLocation(loc:Object){
   
    this.imgComp.loadPicturesFromLocation(loc);
 
@@ -107,8 +112,8 @@ private viewerHeight:number;
      search radius
   </ion-list-header>
     <ion-item>
-    <ion-range min="1" max="20" [(ngModel)]="radius" color="primary" pin="true" >
-      <ion-label range-left>1</ion-label>
+    <ion-range min="0.5" max="5" step="0.5" [(ngModel)]="radius" color="primary" pin="true" >
+      <ion-label range-left>0.5</ion-label>
       <ion-label range-right>20</ion-label>
     </ion-range>
   </ion-item>

@@ -23,7 +23,7 @@ declare var window;
 export class ImageComponent {
   @Output() imagesLoaded: EventEmitter<any> = new EventEmitter();
 private state = 'inactive';
-private searchRadius = 2; 
+private searchRadius = 0.5; 
 private scrollWidth = '0px';
  private images = [];
  private toast:any;
@@ -37,6 +37,7 @@ private scrollWidth = '0px';
  private currentLocation:any;
  private requestActive:boolean = false;
  private loaderVisible:boolean = true;
+ private accuracy:number= 11;
   constructor(private modalController:ModalController ,private elementRef:ElementRef, public navCtrl: NavController, public toastCtrl: ToastController,private req:Jsonp,private _ngZone: NgZone) {
       // configure image container  widths by device height
       let windowHeight = window.innerHeight;
@@ -53,24 +54,35 @@ private scrollWidth = '0px';
      
   }
 
- 
+  setAccuracy(zoomLevel){
+    switch(zoomLevel){
+      case 'street': this.accuracy = 11; break;
+      case 'city' : this.accuracy = 11; break;
+      case 'country' : this.accuracy = 3; break;
+      case 'world' : this.accuracy = 1; break;
+    }
+    this.page=1; // start searching for pictures again
+  }
 
 
     loadPicturesFromLocation(loc: any) {
    // if the location has changed , reset the page
    this.page = loc == this.currentLocation? this.page: 1;
    this.currentLocation = loc;   
+   //show the spinner
+   this.loaderVisible = true;
    let url  = `https://api.flickr.com/services/rest/?
    method=flickr.photos.search&api_key=8f9a7fbeb0f9e5e1116cbafd4d8b20c4&
    has_geo=true&
    in_gallery=true&
+   tags=food,party,travel,people&
    radius=${this.searchRadius}&
-   accuracy=11&
+   accuracy=${this.accuracy}&
    content_type=1&
    radius_units=km&
    page=${this.page}&
    per_page=25&
-   lat=${this.currentLocation .lat}&
+   lat=${  this.currentLocation .lat}&
    lon=${this.currentLocation .lng}&format=json&
    callback=JSONP_CALLBACK`;
    console.log(url);
@@ -147,8 +159,10 @@ jsonFlickrApi(rsp){
 
     this.requestActive = false;
 
-  if(this.page == 1)
+  if(this.page == 1){
   this.loadImages(photos);
+  if(photos.lenght < 5 )  this.loaderVisible = false;
+  }
   else this.pushImages(photos);
   this.page+= 1;
   

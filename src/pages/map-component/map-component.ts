@@ -15,38 +15,47 @@ declare var google: any;
 export class MapComponent {
  @Output() newLocation: EventEmitter<Object> = new EventEmitter<Object>();
 @Output() searching: EventEmitter<any> = new EventEmitter<any>();
-  private mapObj;
-  private markerObj;
+@Output() zoomed: EventEmitter<string> = new EventEmitter<string>();
+  private mapObj; 
   private mapCenter:any = { lat: 28.635308, lng: 77.22496 };
   private prevMarker: any = null;
   private mapMode:string = 'drag';
   private mapDragging:boolean = false;
   private emitterTimeout:any;
+  private zoomLevel = 'street';
+  private defaultZoom = 15;
   constructor(public navCtrl: NavController, public navParams: NavParams, private ele: ElementRef,public toastCtrl: ToastController,public alertController:AlertController) {
-    window.initMap = this.initMap.bind(this);
-
+  
+    // let the image componenet adjust to the default accuracy
+    this.zoomed.emit(this.zoomLevel);
   }
 
+  ngOnInit(){
+    this.initMap();
+  }
 
-
-  initMap(response: any) {
+  initMap() {
     let ctx = this; // incase this gets lost
     // set initial location and center
     this.mapObj = new google.maps.Map(this.ele.nativeElement.querySelector('#map'), {
       center: this.mapCenter,
-      zoom: 12,
+      zoom: this.defaultZoom,
       draggable:true
     });
     
-   //  ctx.markerObj.setMap(ctx.mapObj);
-    // get the user's current location and set it 
-   // this.getGeoLocation();
+
 
     // when map drag starts , singnal for the image viewer to slide away
 
        google.maps.event.addListener(ctx.mapObj,'dragstart', () => {
          this.mapDragging= true;
       ctx.searching.emit(true);
+  
+    });
+
+       google.maps.event.addListener(ctx.mapObj,'drag', () => {
+         this.mapDragging= true;
+ 
   
     });
 
@@ -91,6 +100,20 @@ export class MapComponent {
           if(ctx.mapMode=='tap' && !ctx.mapDragging)
    ctx.placeMarker(event.latLng);
 });
+
+          google.maps.event.addListener(ctx.mapObj, 'zoom_changed', function(event) {
+            ctx.searching.emit(true);
+          
+             let zoom = ctx.mapObj.getZoom();
+             if(zoom < 22 && zoom > 15 ){ ctx.zoomLevel = 'street';} // street level
+             else if(zoom < 15 && zoom > 10 ){ ctx.zoomLevel = 'city'; } //city level
+             else  if(zoom < 10 && zoom > 6 ){ctx.zoomLevel = 'country';} // country levl
+             else  if(zoom < 5 && zoom > 1 ){ctx.zoomLevel = 'world';} // world level
+             ctx.zoomed.emit(ctx.zoomLevel);
+             ctx.emitLocation();
+           
+});
+  
 
 this.emitLocation();
 
@@ -142,7 +165,7 @@ placeMarker(location) {
       lng: pos.coords.longitude
     }
     this.mapObj.setCenter(cords);
-    this.mapObj.setZoom(12);
+    this.mapObj.setZoom(this.defaultZoom);
     this.mapCenter = cords;
 
     if(this.mapMode=='tap')
