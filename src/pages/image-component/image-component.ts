@@ -23,7 +23,7 @@ declare var window;
 export class ImageComponent {
   @Output() imagesLoaded: EventEmitter<any> = new EventEmitter();
 private state = 'inactive';
-private searchRadius = 0.5; 
+private searchRadius = 0.2; 
 private scrollWidth = '0px';
  private images = [];
  private toast:any;
@@ -54,13 +54,17 @@ private scrollWidth = '0px';
      
   }
 
-  setAccuracy(zoomLevel){
-    switch(zoomLevel){
+  setAccuracy(zoom){
+ 
+    // set accuracy
+    switch(zoom.zoomLevel){
       case 'street': this.accuracy = 11; break;
       case 'city' : this.accuracy = 11; break;
       case 'country' : this.accuracy = 3; break;
       case 'world' : this.accuracy = 1; break;
     }
+
+    this.searchRadius = Math.round( ((23 - zoom.zoomValue)/(this.accuracy) ) * 100 )/100;
     this.page=1; // start searching for pictures again
   }
 
@@ -75,7 +79,7 @@ private scrollWidth = '0px';
    method=flickr.photos.search&api_key=8f9a7fbeb0f9e5e1116cbafd4d8b20c4&
    has_geo=true&
    in_gallery=true&
-   tags=food,party,travel,people&
+   tags=food,restraunt,hotel,cafe,market,fastfood,streetfood,heritage,monument,clubs,club&
    radius=${this.searchRadius}&
    accuracy=${this.accuracy}&
    content_type=1&
@@ -159,10 +163,8 @@ jsonFlickrApi(rsp){
 
     this.requestActive = false;
 
-  if(this.page == 1){
+  if(this.page == 1)
   this.loadImages(photos);
-  if(photos.lenght < 5 )  this.loaderVisible = false;
-  }
   else this.pushImages(photos);
   this.page+= 1;
   
@@ -187,6 +189,7 @@ pushImages(images){
 
 loadImages(images){
   this._ngZone.run(() => {
+  let testWidth  = (images.length+1)*(this.containerWidth+1);// in order to hide the spinner ;  
   this.scrollWidth = (images.length+1)*(this.containerWidth+1)+'em'; // +1 for the loader at the end
   this.images= images;
   if(!this.hScrollEle)
@@ -194,15 +197,17 @@ loadImages(images){
   this.hScrollEle = this.initScroller();
   let scrolled = this.hScrollEle.scrollLeft;
   this.hScrollEle.scrollLeft=-1*scrolled;
+
+
+  // if the number of images are less than the client width: hide the loader
+  let horizontalScroll = document.querySelector('.horizontal-scroll');
+  if(testWidth <= this.hScrollEle.clientWidth )  this.loaderVisible = false;
   // just need to tell the home component to show the viewer;
   this.imagesLoaded.emit();
 
    });
 }
 
-setSearchRadius(searchRadius){
-  this.searchRadius = searchRadius;
-}
 
 initScroller(){
  
@@ -238,7 +243,6 @@ openImage(src:string,title:string){
    imageModal.present();
  }
 
-
 }
 
 
@@ -265,4 +269,6 @@ private title:string;
 
    this.viewCtrl.dismiss();
  }
+
+
 }

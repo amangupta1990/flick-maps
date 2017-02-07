@@ -1,8 +1,8 @@
-import { Component, ViewChild,NgZone } from '@angular/core';
-import {ImageComponent} from '../image-component/image-component';
-import {MapComponent} from '../map-component/map-component';
-import { PopoverController , ViewController , NavParams} from 'ionic-angular';
-import {Animations} from '../animations';
+import { Component, ViewChild, NgZone } from '@angular/core';
+import { ImageComponent } from '../image-component/image-component';
+import { MapComponent } from '../map-component/map-component';
+import { PopoverController, ViewController, NavParams } from 'ionic-angular';
+import { Animations } from '../animations';
 
 @Component({
   selector: 'page-home',
@@ -10,71 +10,72 @@ import {Animations} from '../animations';
   animations: Animations.transitions
 })
 export class HomePage {
- private ImageViewerState ='inactive';
-private mapMode = 'tap';
-private searchRadius =2;
-private viewerHeight:number;
-    @ViewChild('imageComponent') imgComp:ImageComponent;
-     @ViewChild('mapComponent') mapComp:MapComponent;
+  private ImageViewerState = 'inactive';
+  private viewerHeight: number;
+  @ViewChild('imageComponent') imgComp: ImageComponent;
+  @ViewChild('mapComponent') mapComp: MapComponent;
 
-  constructor(public popOverCtrl:PopoverController,private _ngZone:NgZone) {
-       // configure image container  widths by device height
-      let windowHeight = window.innerHeight;
+  constructor(public popOverCtrl: PopoverController, private _ngZone: NgZone) {
+    // configure image container  widths by device height
+    let windowHeight = window.innerHeight;
 
-      if(windowHeight <=480 )
+    if (windowHeight <= 480)
       this.viewerHeight = 14; // em
-      else
+    else
       this.viewerHeight = 20; //em
 
-     
+
   }
 
-onZoom(zoomLevel:string){
-console.log(zoomLevel);
-// tell the image component to adjust it's accuracy
-this.imgComp.setAccuracy(zoomLevel);
-}
+  onZoom(zoomLevel) {
 
- onNewLocation(loc:Object){
-  
-   this.imgComp.loadPicturesFromLocation(loc);
+    // tell the image component to adjust it's accuracy
+    this.imgComp.setAccuracy(zoomLevel);
+  }
 
- }
+  onNewLocation(loc: Object) {
 
- onImagesLoaded(event){
-    this.ImageViewerState ='active';
- }
+    this.imgComp.loadPicturesFromLocation(loc);
 
- onMapSearching(){
-   this._ngZone.run(()=>{
-   this.ImageViewerState = 'inactive';
-   })
- }
+  }
 
-   presentPopover(myEvent) {
-    let popover = this.popOverCtrl.create(PopoverPage,{mapMode:this.mapMode,radius:this.searchRadius},{
-      enableBackdropDismiss:false,
-      showBackdrop:true
+  onImagesLoaded(event) {
+    this.ImageViewerState = 'active';
+  }
+
+  onMapSearching() {
+    this._ngZone.run(() => {
+      this.ImageViewerState = 'inactive';
+    })
+  }
+
+  presentPopover(myEvent) {
+
+    // get the current configuration from the map compoenent 
+
+    let mapMode = this.mapComp.getMapMode();
+
+
+    let popover = this.popOverCtrl.create(PopoverPage, { mapMode: mapMode }, {
+      enableBackdropDismiss: false,
+      showBackdrop: true
     });
     popover.present({
       ev: myEvent
     });
 
-    popover.onDidDismiss(newOptions=>{
-      this.mapMode = newOptions.mapMode;
+    popover.onDidDismiss(newOptions => {
+      let mapMode = newOptions.mapMode;
       // send the new options to the map
       this.ImageViewerState = 'inactive';
-      this.mapComp.setMapMode(this.mapMode);
+      this.mapComp.setMapMode(mapMode);
 
-      // update the radius parameter in the image componenet 
-      this.searchRadius = newOptions.radius;
-      this.imgComp.setSearchRadius(this.searchRadius)
-      
+
     })
 
   }
 
-  getUserLocation(){
+  getUserLocation() {
     this.mapComp.getGeoLocation();
   }
 
@@ -106,32 +107,20 @@ this.imgComp.setAccuracy(zoomLevel);
   </ion-item>
 
 </ion-list>
-
-    <ion-list>
-     <ion-list-header>
-     search radius
-  </ion-list-header>
-    <ion-item>
-    <ion-range min="0.5" max="5" step="0.5" [(ngModel)]="radius" color="primary" pin="true" >
-      <ion-label range-left>0.5</ion-label>
-      <ion-label range-right>20</ion-label>
-    </ion-range>
-  </ion-item>
-    </ion-list>
   `
 })
 export class PopoverPage {
- private mapMode :any;
- private radius = 2;
-  constructor(public viewCtrl: ViewController, params:NavParams) {
+  private mapMode: any;
+
+  constructor(public viewCtrl: ViewController, params: NavParams) {
     this.mapMode = params.data.mapMode;
-     this.radius = params.data.radius;
+
 
   }
-  
- 
+
+
 
   close() {
-    this.viewCtrl.dismiss({mapMode:this.mapMode,radius:this.radius});
+    this.viewCtrl.dismiss({ mapMode: this.mapMode });
   }
 }
