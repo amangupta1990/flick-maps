@@ -19,7 +19,7 @@ export class MapComponent {
   private mapObj; 
   private mapCenter:any = { lat: 28.635308, lng: 77.22496 };
   private prevMarker: any = null;
-  private mapMode:string = 'tap';
+  private mapMode:string = 'drag';
   private mapDragging:boolean = false;
   private emitterTimeout:any;
   private zoomLevel = 'street';
