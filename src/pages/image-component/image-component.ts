@@ -1,4 +1,5 @@
 import { Component , Input,Output, EventEmitter, NgZone , ElementRef } from '@angular/core';
+import {style, animate, transition, state, trigger} from '@angular/core';
 import { Jsonp  } from '@angular/http';
 import { NavController, ToastController, ModalController, NavParams,ViewController } from 'ionic-angular';
 import {Observable}     from 'rxjs/Observable';
@@ -18,7 +19,37 @@ declare var window;
 */
 @Component({
   selector: 'page-image-component',
-  templateUrl: 'image-component.html'
+  templateUrl: 'image-component.html',
+  animations: [
+  trigger('flyInAbove', [
+      state('inactive', style({
+        opacity:0,
+        transform: 'translateY(-100%)',
+       webkitTransform: 'translateY(-100%)'
+        
+      })),
+      state('active',   style({
+        opacity:1,
+        transform: 'translateY(0%)',
+       webkitTransform: 'translateY(0%)'
+      })),
+      transition('inactive => active', animate('500ms ease-in')),
+      transition('active => inactive', animate('500ms ease-out'))
+  ]),
+    trigger('flyInBelow', [
+      state('inactive', style({
+        opacity:0,
+        transform: 'translateY(100%)',
+       webkitTransform: 'translateY(100%)'
+      })),
+      state('active',   style({
+        opacity:1,
+        transform: 'translateY(0%)',
+       webkitTransform: 'translateY(0%)'
+      })),
+      transition('inactive => active', animate('500ms ease-in')),
+      transition('active => inactive', animate('500ms ease-out'))
+  ])]
 })
 export class ImageComponent {
   @Output() imagesLoaded: EventEmitter<any> = new EventEmitter();

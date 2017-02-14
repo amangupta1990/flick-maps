@@ -5,7 +5,7 @@ import { HomePage, PopoverPage } from '../pages/home/home';
 import { MapComponent } from '../pages/map-component/map-component';
 import { ImageComponent ,ImageViewer } from '../pages/image-component/image-component';
 import {JsonpModule} from '@angular/http';
-import {Animations } from '../pages/animations';
+
 
 @NgModule({
   declarations: [
@@ -31,6 +31,6 @@ import {Animations } from '../pages/animations';
     PopoverPage,
     ImageViewer
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler},Animations]
+  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
 })
 export class AppModule {}

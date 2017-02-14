@@ -2,12 +2,11 @@ import { Component, ViewChild, NgZone } from '@angular/core';
 import { ImageComponent } from '../image-component/image-component';
 import { MapComponent } from '../map-component/map-component';
 import { PopoverController, ViewController, NavParams } from 'ionic-angular';
-import { Animations } from '../animations';
+
 
 @Component({
   selector: 'page-home',
-  templateUrl: 'home.html',
-  animations: Animations.transitions
+  templateUrl: 'home.html'
 })
 export class HomePage {
   private ImageViewerState = 'inactive';
