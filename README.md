@@ -1,20 +1,57 @@
-Ionic 2 App Base
+Flick-Maps
 =====================
 
-This is the base template for Ionic 2 starter apps.
+This is a demo of google maps and flicker image search integration in a progressive web app built with angular 2 .
 
-## Using this project
+The project uses the Ionic 2 framework with pwa support.
 
-You'll need the Ionic CLI with support for v2 apps:
+[DEMO](https://amangupta1990.github.io/flick-maps/www/)
+
+## Features
+
+1. Drag and Tap mode in the map component
+2. User location
+3. infinte horizontal image list
+4. full screen image viewer
+5. service worker support
+
+## Features
+
+1. Drag and Tap mode in the map component
+2. User location
+3. infinte horizontal image list
+4. full screen image viewer
+
+
+## Scope for improvement 
+
+1. implement image preloading
+2. improve zoom - radius calculation 
+
+
+## tested with 
+
+1. Google chrome - browser and android
+2. microsoft Edge - windows 10 desktop and phone
+3. Safari - Ios 9 and Safari on osx 10.11
+
+## runnig the project:
+
+
 
 ```bash
 $ npm install -g ionic
 ```
 
-Then run:
+Then cd into project and run :
 
 ```bash
-$ ionic start myApp
+$ npm install
+```
+and then finally
+
+```bash
+$ ionic serve ( optional --lab mode  )
 ```
 
 More info on this can be found on the Ionic [Getting Started](http://ionicframework.com/docs/v2/getting-started/) page.
