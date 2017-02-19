@@ -8,7 +8,7 @@
     "build": "ionic-app-scripts build",
     "ionic:build": "ionic-app-scripts build",
     "ionic:serve": "ionic-app-scripts serve",
-    "build:www":"rm -rf www && ionic-app-scripts build browser --prod"
+    "build:www":"ionic-app-scripts build browser --prod"
   },
   "dependencies": {
     "@angular/common": "2.2.1",

@@ -1,5 +1,4 @@
 import { Component, ViewChild, NgZone, HostBinding } from '@angular/core';
-import {style, animate, transition, state, trigger} from '@angular/core';
 import { ImageComponent } from '../image-component/image-component';
 import { MapComponent } from '../map-component/map-component';
 import { PopoverController, ViewController, NavParams } from 'ionic-angular';
@@ -14,7 +13,6 @@ import { PopoverController, ViewController, NavParams } from 'ionic-angular';
 export class HomePage {
   private ImageViewerState = 'inactive';
   private viewerHeight: number;
-  private entryAnimation = 'inactive';
   @ViewChild('imageComponent') imgComp: ImageComponent;
   @ViewChild('mapComponent') mapComp: MapComponent;
   @HostBinding('class.circle-trans') trans = true;

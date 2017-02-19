@@ -1,4 +1,4 @@
-import { Component , Input,Output, EventEmitter, NgZone , ElementRef } from '@angular/core';
+import { Component ,Output, EventEmitter, NgZone , ElementRef } from '@angular/core';
 import { Jsonp  } from '@angular/http';
 import { NavController, ToastController, ModalController, NavParams,ViewController } from 'ionic-angular';
 import {Observable}     from 'rxjs/Observable';
@@ -22,14 +22,13 @@ declare var window;
 })
 export class ImageComponent {
   @Output() imagesLoaded: EventEmitter<any> = new EventEmitter();
-private state = 'inactive';
+
 private searchRadius = 0.2; 
 private scrollWidth = '0px';
  private images = [];
  private toast:any;
  private containerWidth: number; 
  private imageMaxHeight: number;// to make sure the horizontal scroll is scaled enough 
- private offsetXObservable:any;
  private hScrollEle:any = null;
  private scrollEndObservable: Observable<boolean>;
  private scrollEndListner: any;
@@ -173,7 +172,6 @@ jsonFlickrApi(rsp){
 pushImages(images){
   this._ngZone.run(() => {
 // +1 for the loader at the end
-  let imgColl = [];
   images.map(img=>{
 
   this.images.push(img);
@@ -200,7 +198,6 @@ loadImages(images){
 
 
   // if the number of images are less than the client width: hide the loader
-  let horizontalScroll = document.querySelector('.horizontal-scroll');
   if(testWidth <= this.hScrollEle.clientWidth )  this.loaderVisible = false;
   // just need to tell the home component to show the viewer;
   this.imagesLoaded.emit();
@@ -211,7 +208,6 @@ loadImages(images){
 
 initScroller(){
  
-var ctx = this;
 let scroller =  document.querySelector('ion-footer');
 // setup the observable as well;
 

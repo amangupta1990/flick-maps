@@ -14,6 +14,7 @@ The project uses the Ionic 2 framework with pwa support.
 3. infinte horizontal image list
 4. full screen image viewer
 5. service worker support
+6. AOT compiled production ready code
 
 ## Features
 

@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, EventEmitter, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output } from '@angular/core';
 import { NavController, NavParams, ToastController, AlertController } from 'ionic-angular';
 declare var window: any;
 declare var google: any;
