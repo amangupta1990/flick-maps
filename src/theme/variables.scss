@@ -44,6 +44,42 @@ ion-footer{
   justify-content: center;
 }
 
+.circle-trans {
+  transition: -webkit-clip-path 2s ease; 
+}
+/*for animating the home screen*/
+.circular-hide {
+  shape-inside: circle(0%);
+
+
+  -webkit-clip-path: circle(0%);
+}
+
+
+
+
+.circular-reveal {
+  shape-inside: circle(100%);
+  -webkit-clip-path:  circle(100%);;
+ /* shape-inside: circle(50%, 50%, 50%);
+  -webkit-clip-path: circle(50%, 50%, 50%); */
+}
+
+.slide-in{
+  transition : all 1s ease;
+}
+
+       .inactive{
+        opacity:0;
+        transform: translateY(100%);
+       -webkit-transform: translateY(100%);
+      }
+      .active{
+        opacity:1;
+        transform: translateY(0%);
+       -webkit-transform: translateY(0%);
+      }
+
 // Shared Variables
 // --------------------------------------------------
 // To customize the look and feel of this app, you can override

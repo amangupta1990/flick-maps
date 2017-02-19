@@ -1,50 +1,24 @@
-import { Component, ViewChild, NgZone } from '@angular/core';
+import { Component, ViewChild, NgZone, HostBinding } from '@angular/core';
 import {style, animate, transition, state, trigger} from '@angular/core';
 import { ImageComponent } from '../image-component/image-component';
 import { MapComponent } from '../map-component/map-component';
 import { PopoverController, ViewController, NavParams } from 'ionic-angular';
 
 
+
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html',
-  animations: [
-  trigger('flyInAbove', [
-      state('inactive', style({
-        opacity:0,
-        transform: 'translateY(-100%)',
-       webkitTransform: 'translateY(-100%)'
-        
-      })),
-      state('active',   style({
-        opacity:1,
-        transform: 'translateY(0%)',
-       webkitTransform: 'translateY(0%)'
-      })),
-      transition('inactive => active', animate('500ms ease-in')),
-      transition('active => inactive', animate('500ms ease-out'))
-  ]),
-    trigger('flyInBelow', [
-      state('inactive', style({
-        opacity:0,
-        transform: 'translateY(100%)',
-       webkitTransform: 'translateY(100%)'
-      })),
-      state('active',   style({
-        opacity:1,
-        transform: 'translateY(0%)',
-       webkitTransform: 'translateY(0%)'
-      })),
-      transition('inactive => active', animate('500ms ease-in')),
-      transition('active => inactive', animate('500ms ease-out'))
-  ])]
+  host:{'[class.circular-hide]':'!reveal','[class.circular-reveal]':'reveal'}
 })
 export class HomePage {
   private ImageViewerState = 'inactive';
   private viewerHeight: number;
+  private entryAnimation = 'inactive';
   @ViewChild('imageComponent') imgComp: ImageComponent;
   @ViewChild('mapComponent') mapComp: MapComponent;
-
+  @HostBinding('class.circle-trans') trans = true;
+ private reveal = false;
   constructor(public popOverCtrl: PopoverController, private _ngZone: NgZone) {
     // configure image container  widths by device height
     let windowHeight = window.innerHeight;
@@ -71,6 +45,7 @@ export class HomePage {
 
   onImagesLoaded(event) {
     this.ImageViewerState = 'active';
+    this.reveal = true;
   }
 
   onMapSearching() {
